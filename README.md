@@ -1,5 +1,4 @@
 CITS5502 Software Processes projects
-
 ========
 
 http://undergraduate.csse.uwa.edu.au/units/CITS5502/
