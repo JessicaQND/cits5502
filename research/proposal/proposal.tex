@@ -1,0 +1,63 @@
+\documentclass[12pt, a4paper]{article}
+\bibliographystyle{acm}
+
+
+\setlength{\oddsidemargin}{0.5cm}
+\setlength{\evensidemargin}{0.5cm}
+\setlength{\topmargin}{-1.6cm}
+\setlength{\leftmargin}{0.5cm}
+\setlength{\rightmargin}{0.5cm}
+\setlength{\textheight}{24.00cm} 
+\setlength{\textwidth}{15.00cm}
+\parindent 0pt
+\parskip 5pt
+\pagestyle{plain}
+
+\title{Research Proposal}
+\author{}
+\date{}
+
+\newcommand{\namelistlabel}[1]{\mbox{#1}\hfil}
+\newenvironment{namelist}[1]{%1
+\begin{list}{}
+    {
+        \let\makelabel\namelistlabel
+        \settowidth{\labelwidth}{#1}
+        \setlength{\leftmargin}{1.1\labelwidth}
+    }
+  }{%1
+\end{list}}
+
+\begin{document}
+\maketitle
+
+\begin{namelist}{xxxxxxxxxxxx}
+\item[{\bf Title:}]
+	Software design and medical technology; investigating awareness and risk
+\item[{\bf Author:}]
+	Ash Tyndall
+\item[{\bf Unit:}]
+	CITS5502 Software Processes
+\end{namelist}
+
+\section*{Background}
+Medical software systems exist in a unique area of the computing spectrum.
+
+Frequently, they are trusted to correctly administer doses of radiation, chemotherapy, and other substances to a patient who cannot easily determine if a malfunction is occuring.
+
+Similarly, while the medical professionals responsible for the oversight of the machine's operation have knowledge as to what is acceptable/non-acceptable dosage, they do not necessarily have the skills to determine if the machine is correctly executing this knowledge, or if it has suffered a non-obvious fault.
+
+Frequently the potential range of administration of these machines exceeds the safe dosage range, which has lead to past incidents in which patients have recieved orders of magnitude higher dosages than intended, and have suffered permanent damange or death as a result.
+
+A common case study in this area is that of Therac-25; one of the first radiation therapy devices that used primarily software safeguards, and caused six incidents of death or serious injury as a result of poor user interface design and poor software development processes. \cite{leveson1993investigation} This and incidents like it lead to increased government and industry regulation in the area, including the institution of IEC 62304, a software life cycle process specifically for medical device software. \cite{jordan2006standard}
+
+
+\section*{Research Topic} 
+This project proposes to investigate the evolution of software design, development processes and user interfaces in medical equiptment from pre-software to the current day, and how these factors contribute to increasing operator awareness of error and malfunction, as well as the implication of and potential to override fault indications.
+
+This is of critical importance to the medical industry, as poor application of software design and presentation of error has the potential to cause (and has indeed already lead to) death or serious disability through the misadministration of treatment though a combination of unclear error/data presentation, software edge-cases and abiltity for operator override in these circumstances.
+
+
+\bibliography{references}
+
+\end{document}
