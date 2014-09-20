@@ -1,0 +1,64 @@
+\documentclass{cshonours}
+\usepackage{url}
+\usepackage{graphics}
+\usepackage{bibunits}
+\usepackage{abbrevs}
+\usepackage{acronym}
+\usepackage[vario]{fancyref}
+
+%%% BEGIN LATEX TWEAKS
+
+% Configure bibliography
+\bibliographystyle{acm}
+\defaultbibliography{../references/primary}
+\defaultbibliographystyle{acm}
+
+% Acronyms for common stuff
+% \acrodef{t25}[PIR]{Passive Infrared Sensor}
+
+% Abbreviation commands for common stuff
+\newabbrev\ther{Therac-25}
+
+% Fancyref support for subsections, source; https://github.com/openlilylib/tutorials/blob/master/aGervasoni/orchestralScores/example-materials/OLLbase.sty
+\newcommand*{\fancyrefsubseclabelprefix}{subsec}
+
+\fancyrefaddcaptions{english}{%
+  \providecommand*{\frefsubsecname}{subsection}%
+  \providecommand*{\Frefsubsecname}{Subsection}%
+}
+
+\frefformat{plain}{\fancyrefsubseclabelprefix}{\frefsubsecname\fancyrefdefaultspacing#1}
+\Frefformat{plain}{\fancyrefsubseclabelprefix}{\Frefsubsecname\fancyrefdefaultspacing#1}
+
+\frefformat{vario}{\fancyrefsubseclabelprefix}{%
+  \frefsubsecname\fancyrefdefaultspacing#1#3%
+}
+\Frefformat{vario}{\fancyrefsubseclabelprefix}{%
+  \Frefsubsecname\fancyrefdefaultspacing#1#3%
+}
+
+
+%%% END LATEX TWEAKS
+
+
+\title{\ther TBA}
+\author{Ash Tyndall}
+
+\begin{document}
+\maketitle
+
+\tableofcontents
+\listoftables
+\listoffigures
+
+\chapter{Introduction}
+
+\cite{safeware}
+
+\chapter{Literature Review}
+
+\appendix
+
+\bibliography{references}
+
+\end{document}
