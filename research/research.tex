@@ -14,10 +14,13 @@
 \defaultbibliographystyle{acm}
 
 % Acronyms for common stuff
-% \acrodef{t25}[PIR]{Passive Infrared Sensor}
+\acrodef{aecl}[AECL]{Atomic Energy Canada Limited}
+\acrodef{cgr}[CGR]{Compagnie General Radiographique}
 
 % Abbreviation commands for common stuff
 \newabbrev\ther{Therac-25}
+\newabbrev\aecl{\ac{aecl}}
+\newabbrev\cgr{\ac{cgr}}
 
 % Fancyref support for subsections, source; https://github.com/openlilylib/tutorials/blob/master/aGervasoni/orchestralScores/example-materials/OLLbase.sty
 \newcommand*{\fancyrefsubseclabelprefix}{subsec}
@@ -52,6 +55,16 @@
 \listoffigures
 
 \chapter{Introduction}
+
+In the early 1970s, two companies, \aecl and \cgr, collaborated to build updated models of their core radiotheraputic offerings; Medical Linear Accelerators (LINACs). LINACs are an extension of the basic concept of a linear particle accelerator, repackaged for medical applications. They are are designed to create a beam of either electron or x-rays which can be focused on a very specific section of a patients body. These beams can be used to kill cancerous growths without severely damaging surrounding tissue.
+
+Together, \aecl and \cgr develop two LINACs; the Therac-6 and the Therac-20, both of which were based on previous \cgr work, but with mechanical control substituted with control via computer terminal. These machines are designed with accelerators that could produce 6 MeV x-rays and 20 MeV x-rays/electrons respectively. Still in partnership in the mid-1970s, \aecl and \cgr develop a new Therac that uses a new kind of linear accelerator, a ``double-pass'' system, which reduces the space requirements and allows cheaper parts to be used. \aecl and \cgr part ways soon thereafter, citing competitive pressures. 
+
+\aecl proceeded with the development of this new ``double-pass'' system, the \ther (so named for its 25 MeV x-ray and electron beam), continuing to develop the software-based control system, and passing the necessary regulatory requirements. The system is announced for public sale in 1983. One of the cutting-edge features of the machine is the removal of hardware-based interlocks and safeguards on the device, \aecl instead opting to use a wholly software-based approach to ensure that the appropriate components are rotated in front of the raw electron beam to reduce the dangerous radiation to therapeutic levels.
+
+In 1985, the first reported case of \ther software safeguard failure occurred. Katherine Yarbrough, a breast cancer patient, receives an estimated 15,000--20,000 rads instead of the normal 200 rad range. She suffers severe radiation burns and shoulder and arm paralysis. A month later at a different facility, an unidentified female patient receives four separate overdoses totalling 13,000--17,000 rads within the space of several minutes, due to a combination of safeguard failure and poorly explained error messages. This patient dies of radiation induced cancer some months later.
+
+It was initially unclear to those who operated the \ther that software errors were the cause of these overdoses. Due to the nature of radiation overdoses, the most serious of symptoms appear days if not weeks later, causing the resulting deaths and disablements to be attributed to other factors. However, over time, it became clear to different system operators that something was seriously wrong with the \ther, sparking an eventual forced FDA recall of the product with a total of six overdoses and two deaths.
 
 \chapter{Literature Review}
 
