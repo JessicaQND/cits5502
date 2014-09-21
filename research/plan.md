@@ -1,5 +1,19 @@
 ### Therac-25: Will history repeat itself?
 
+* Aims
+  * To outline what happened in the case of Therac-25, and how partly a failure in good software processes caused the incident
+  * To outline what changes in medical device software processes were made post Therac-25 to prevent recurrences 
+  * To determine if those processes have actually reduced deaths and injuries from medical device software defects
+* Definitions, Terminology, Scope
+  * Medical device software: Embedded software used to run medical devices
+  * Scope: Medical software processes
+* Constraints on study
+  * Restricting discussion to linear accelerators from Therac-25 to the present day
+* Assumptions made
+  * Software processes have improved medical device software quality
+* Literature review
+  * TODO
+
 * What went wrong from a software process level?
   * Software of Unknown Pedigree
     * Assumption that software had been tested, but it hadn't in a software only safeguards machine
@@ -29,6 +43,7 @@
     * "Many software safety experts think that the medical device sector should recognise IEC 61508, Functional safety of electrical/electronic/programmable electronic safety-related systems. This claims to be a 'standard for standards". Any industry sector writing a standard for software safety should in principle adopt its principles. However, application of IEC 61508 is difficult in the medical device sector because it tends to assume holistic risk management and it is best at addressing very low levels of risk." -- jordan2006standard
   * ISO 14971
     * First version: 1998
+    * Safety / Risk Management
     * "Risk Management—Application of Risk Management to Medical Devices, Int’l Standards Org., 2000. Defines several risk management terms and provides a framework for an effective risk management process." -- rakitin2006coping
     * "requires documented evidence that software mitigations are effective" -- rakitin2006coping
   * AAMI SW68
@@ -39,6 +54,7 @@
     * "IEC 60601-1-4, Medical Electrical Equipment, Part 1: General Requirements for Safety and Essential Performance, Collateral Standard: Programmable Electrical Medical Systems; ed. 1.1, Int’l Electrotechnical Commission, 2000. IEC 60601-1-4. Defines many basic principles of risk management, including the definition of risk as the combination of probability and severity." -- rakitin2006coping
   * ISO 13485 
     * First version: 2003
+    * Quality Management System (domain specific)
     * "Medical Devices—Quality Management Systems—Requirements for Regulatory Purposes, Int’l Standards Org., 2003. Provides the framework for a quality system for medical device manufacturers and requires establishing a risk management process based on ISO 14971 and using it throughout the product realization process" -- rakitin2006coping
   * AAMI TIR32
     * First version: 2004
@@ -46,11 +62,24 @@
     * "Reliability is the ability of a system to perform its required functions under stated conditions for a specified period of time. Safety is the probability that conditions (hazards) that can lead to a mishap do not occur, whether or not the intended function is performed. Reliability is interested in all possible software errors, while safety is concerned only with those errors that cause actual system hazards."
   * IEC 62304
     * First version: 2006
+    * Life Cycle Management
   
 * How have those processes affected medical software quality?
+  * "Among the fault types, logic appears very high at 43%; with further details, some of these faults might fit into other classes. This class includes possible errors such as incorrect logic in the requirement specification, unexpected behavior of two or more conditions occurring simultaneously, and improper limits." -- wallace2001failure
+  * Allow the prediction of some problems; catal2011software
+  
 * Have there been Therac-type incidences since?
+  * There have been medical recalls since, although it is unclear how many deaths; wallace2001failure
+  
 * Has the industry made sufficient changes to software processes to prevent these accidents?
-* Can software be controlled?
+  * TODO: Need data
+
+* Can software be controlled at all?
+  * Discuss the user as controller / monitor / etc models in Safeware
+  * Propose a "user has no control" model
 
 * Insights
   * Regulators move too slowly to actually prevent "pioneering deaths"
+  * The new frontier of medicine is actual standalone medical software, which lacks concrete regulation(? verify)
+    * "The first accident throws light on the problem of in-house software: many radiotherapy centres use such handcrafted software, which are not standardised and may not be thoroughly checked before clinical use. This was a case in which the local software had not been tested for beams filtered by internal wedge." -- derreumaux2008lessons
+    * ~1987 -- 2000, approx 4000 people; "the MU calculation in-house software had not been updated to take into account the Dr increase due to beam divergence (inverse square law). Therefore, all isocentric patients were over-irradiated by a factor equal to [(100 þ dmax)/100]2, where dmax is a function of beam energy. The overexposure is estimated to be 3, 5.5 and 7%, respectively, for 6, 12 and 25 MV beams."  -- derreumaux2008lessons
