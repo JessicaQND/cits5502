@@ -40,16 +40,9 @@
   * Regulatory response: New standards
     * rakitin2006coping / brown2000overview / jordan2006standard
       * Processes that exist
-  * Process changes: What else can be done?
-    * Designing safety-critical computer systems; dunn2003designing
-    * Forensic software engineering the solution? johnson2002forensic
-    * A risk management capability model for use in medical device companies; burton2006risk
-    * Medical Device Software Traceability; mc2012medical
-    * Agile? mchugh2012barriers
   * Data analysis: Are we safer?
     * maude
     * wallace2001failure / wallace1999lessons
-    * Allow the prediction of some problems; catal2011software
     * Bias in reporting; johnson2003failure 
   * Regulatory gaps: What's next?
     * derreumaux2008lessons
@@ -131,14 +124,6 @@
   * IEC 62304
     * First version: 2006
     * Life Cycle Management
- 
- 
-* Process changes: What else can be done?
-  * Designing safety-critical computer systems; dunn2003designing
-  * Forensic software engineering the solution? johnson2002forensic
-  * A risk management capability model for use in medical device companies; burton2006risk
-  * Medical Device Software Traceability; mc2012medical
-  * Agile? mchugh2012barriers
  
  
 * Data analysis: Are we safer?
