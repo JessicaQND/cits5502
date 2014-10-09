@@ -1,0 +1,187 @@
+\documentclass{beamer}
+\usepackage{url}
+\usepackage{graphics}
+\usepackage{bibunits}
+\usepackage{abbrevs}
+\usepackage{acronym}
+\usepackage[vario]{fancyref}
+\usepackage[utf8]{inputenc}
+\usepackage{default}
+\usepackage{gnuplot-lua-tikz}
+\usepackage{multicol}
+
+%%% BEGIN LATEX TWEAKS
+
+% Configure bibliography
+\bibliographystyle{acm}
+\defaultbibliography{../references/primary}
+\defaultbibliographystyle{acm}
+
+% Acronyms for common stuff
+\acrodef{aecl}[AECL]{Atomic Energy Canada Limited}
+\acrodef{cgr}[CGR]{Compagnie General Radiographique}
+
+% Abbreviation commands for common stuff
+\newabbrev\ther{Therac-25}
+\newabbrev\aecl{\ac{aecl}}
+\newabbrev\cgr{\ac{cgr}}
+
+%%% END LATEX TWEAKS
+
+\title{Therac-25: Will history repeat itself?}
+\author{Ash Tyndall}
+
+\begin{document}
+  \frame{\titlepage}
+
+  \begin{frame}
+  \frametitle{Table of Contents}
+  \tableofcontents
+  \end{frame}
+  
+  \section{Measuring Software-Related Failure}
+  
+  \begin{frame}
+  \frametitle{Example Adverse Event Categories}
+    \tiny
+  \begin{multicols}{4}
+    \begin{itemize}
+  \item Failure to run on AC/DC
+  \item Abnormal
+  \item Absorption
+  \item Accessory incompatible
+  \item Measurements, inaccurate
+  \item Adaptor, failure of
+  \item Agglutinate, failure to
+  \item Automatic injection system overinfusion
+  \item Failure to back-up
+  \item Failure to convert to back-up
+  \item Balloon rupture
+  \item Balloon asymmetrical
+  \item Balloon burst
+  \item Contamination during use
+  \item Intermittent continuity
+  \item Continuous
+  \item Continuous firing
+  \item Continuous mode failure
+  \item Use of Incorrect Control Settings
+  \item Cool, failure to
+  \item Coolant, contraindicated
+  \item Cooling system, failure of
+  \item Insufficient cooling
+  \item Display misread
+  \item Erratic display
+  \item No display or display failure
+  \item Incorrect display
+  \item Disposable
+  \item Dissection
+  \item Distilled water, contaminated
+  \item Dome collapse
+  \item Rupture due to trauma
+  \item Saline, use of homemade
+  \item Salt tablet(s), use of
+  \item Seal, incorrect
+  \item Sediment filter problems
+  \item Self-activation or keying
+  \item Sensing intermittently
+  \item Failure to sense
+  \item Inadequate training
+  \item Transducer overheating
+  \item Transducer probe overheating
+  \item Transducer failure
+  \item Transmitter failure
+  \item Trocar/instrument incompatibility
+  \item Tube(s), exploding of
+  \item Tubing, incorrect placement of
+  \item Twisting
+  \item Ultrafiltration
+  \item Ultraviolet
+  \item Ultraviolet absorbing
+  \item Uncoiled
+  \item Undercorrection
+  \item Warning light, incorrect
+  \item Water softener process, failure of
+  \item Water treatment
+  \item Wedge filter problem
+  \item Wedge, difficult to
+  \item Screw head(s), incorrect
+  \item Wavelength, incorrect
+  \item Failure to zero
+  \item Automatic injection system, failure to infuse
+  \item Blood in tubing
+  \item Metal shedding debris
+  \item Electrical wires, defective
+  \item Water softener regeneration cycle, mistiming of
+  \item Temperature probe, loose
+  \item Bubble detector, failure of
+  \item Valve(s), defective
+  \item Tube(s), defective
+  \item Air eliminator, defective
+  \item Seal, defective
+  \item Cable, defective
+  \item Underdelivery
+  \item Electro-magnetic interference (EMI), compatibility/incompatibility
+  \item Tube(s), buckling of
+  \item Wire(s), breakage of
+  \item Device Issue
+  \item Laparoscopic sterilization
+  \item Meter failure
+  \end{itemize}
+  \end{multicols}
+  \end{frame}
+
+  \begin{frame}
+   \frametitle{Adverse Events that are ``Computer Related''}
+   \smaller
+   \begin{multicols}{2}
+   \begin{itemize}
+    \item Computer failure
+    \item Computer hardware error
+    \item Computer software issue
+    \item Incorrect display
+    \item Error or warning message, failure to produce
+    \item Power calculation error due to software problem
+    \item Incorrect software programming calculations
+    \item Algorithms, inconsistent
+    \item Semiautomatic code, failure to override
+    \item Year 2000 (Y2K) related problem
+    \item Date-related software issue
+    \item Application network issue
+    \item Application program issue
+    \item Application program version or upgrade problem
+    \item Application security issue
+    \item Computer operating system issue
+    \item Computer system security issue
+    \item Data back-up problem
+    \item Loss of Data
+    \item Operating system becomes non-functional
+    \item Operating system version or upgrade problem
+    \item Problem with software installation
+    \item Programming issue
+   \end{itemize}
+   \end{multicols}
+
+  \end{frame}
+
+  
+  \begin{frame}
+   \frametitle{Number of ``Adverse Events''}
+   \input{data/fdaplot2-presentation}
+  \end{frame}
+
+  
+  \begin{frame}
+   \frametitle{Percentage of ``Computer Related'' Adverse Events}
+   \input{data/fdaplot1-presentation}
+  \end{frame}
+
+  \section{Bibliography}
+
+  \begin{frame}[allowframebreaks]
+    \frametitle{Bibliography}
+    \tiny
+    \nocite{*}
+    \bibliography{primary}
+  \end{frame}
+
+\end{document}
