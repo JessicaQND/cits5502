@@ -6,6 +6,7 @@
 \usepackage{acronym}
 \usepackage[vario]{fancyref}
 \usepackage{gnuplot-lua-tikz}
+\usepackage{xspace}
 
 %%% BEGIN LATEX TWEAKS
 
@@ -15,13 +16,19 @@
 \defaultbibliographystyle{acm}
 
 % Acronyms for common stuff
-\acrodef{aecl}[AECL]{Atomic Energy Canada Limited}
-\acrodef{cgr}[CGR]{Compagnie General Radiographique}
+\newcommand{\acrodefn}[3]{%
+	\acrodef{#1}[#2]{#3}%
+	\expandafter\newcommand\csname#1\endcsname{\ac{#1}\xspace}%
+}
+\acrodefn{aecl}{AECL}{Atomic Energy Canada Limited}
+\acrodefn{cgr}{CGR}{Compagnie General Radiographique}
+\acrodefn{fda}{FDA}{U.S. Food and Drug Administration}
+\acrodefn{maude}{MAUDE}{Manufacturer and User Facility Device Experience Database}
 
 % Abbreviation commands for common stuff
+% TODO: Fix spacing problem
 \newabbrev\ther{Therac-25}
-\newabbrev\aecl{\ac{aecl}}
-\newabbrev\cgr{\ac{cgr}}
+\newabbrev\etal{et al.}
 
 % Fancyref support for subsections, source; https://github.com/openlilylib/tutorials/blob/master/aGervasoni/orchestralScores/example-materials/OLLbase.sty
 \newcommand*{\fancyrefsubseclabelprefix}{subsec}
@@ -68,6 +75,7 @@ It was initially unclear to those who operated the \ther that software errors we
 % TODO: Cite
 \ther was responsible for the first known deaths in radiotherapy, a profession that began some 35 years prior, and the confluence of death and computing caused an uproar at the time. Since then, the flames of anger have died down, and there is an opportunity to review the incident objectively. This report will examine the \ther case in detail, trying to determine the answers to several important questions:
 \begin{enumerate}
+ \item How does one design safe software, what does it involve, what are the pitfalls and how do we avoid them? (\Fref{chap:safesoftware})
  \item What were the flaws of \ther and how did failures on the part of \aecl and \cgr contribute to the creation of these flaws? (\Fref{chap:flawsfailures})
  \item How did standards and regulatory bodies respond to \ther through new guidelines and processes for creation of ``safe'' medical device software? (\Fref{chap:newstandards})
  \item Have those guidelines and processes resulted in the creation of safer medical device software? (\Fref{chap:safer})
@@ -75,8 +83,28 @@ It was initially unclear to those who operated the \ther that software errors we
  \item Will \ther happen again? (\Fref{chap:conclusion})
 \end{enumerate}
 
-% \chapter{Literature Review}
-% TODO: Necessary?
+% TODO: Economic consequences of human death
+
+\chapter{Literature Review}
+\label{chap:litreview}
+\ther was one of the first widely reported software-related disasters, and as a result, a variety of academic work has been performed since the disaster investigating the specifics of the failure of \ther, as well as the development of safety critical  medical software generally.
+
+Primary work in the area of safety critical software development and system design as been done by Nancy Leveson. Her two books \textit{Safeware} \cite{safeware} and the more recent \textit{Engineering a Safer World} \cite{saferworld} are highly influential works in the field. They discuss from a variety of disciplines the causes of safety-critical system failure, from poor software testing processes to a failure of system design to adequately inform the user of the system's state. Of particular relevance to our \ther questions is \textit{Safeware} chapter 6, ``The Role of Humans in Automated Systems'', which describes several models of human-computer interaction and the necessary design principles to properly enable them. Additionally, \textit{Engineering a Safer World} chapter 9, ``Safety-Guided Design'', which discusses several of the \ther design flaws.
+
+Leveson and Turner have also contributed the primary academic report on \ther \cite{leveson1993investigation} which discusses the history of the Therac brand, the history of the companies involved, as well as the timeline of the disasters that ensued.
+
+Various work has been done into the area of safe critical software from both the perspective of cause and prevention. Dunn \cite{dunn2003designing} provides us with a helpful definition of safety in terms of ``mishap risk'', as well as examples of mishap causes.
+
+In terms of cause, in \textit{Failure in Safety-Critical Systems} chapter 3 \cite{johnson2003failure} Johnson discusses in detail the sources of failure, touching upon a broad variety of failures including Regulatory, Managerial, Hardware, Software, Human and Team based failures. Besnard and Baxter \etal \cite{besnard2003human} discuss two models of system failure, Reason's swiss cheese model and Randell's fault-error-failure model, both of which can be used to analyse the \ther disaster.
+
+In terms of prevention, Nolan \cite{nolan2000system} proposes several strategies to be considered when designing ``safe systems of care'', as well as methods to reduce ``adverse events''  which may compromise patient health. Obradovich and Woods \cite{obradovich1996users} perform an investigation of poor Human-Computer Interface design in a medical device, describing how the device is flawed and how both the user and medical supervisor can change their processes to cope with this. Lin, Vicente and Doyle \cite{lin2001patient} propose a new interface for a specific medical appliance that applies human factors engineering, a key part of the discussed prevention of user error, and provides data demonstrating the effectiveness of such an approach from error minimisation and efficiency perspectives.
+
+Several works discuss the introduction of various international standards and regulations post-\ther. Rakitin \cite{rakitin2006coping} provides an overview of foundational standards in the risk management space of medical device software. Brown \cite{brown2000overview} provides an overview of specifically the IEC 61508 ``Design of electrical / electronic / programmable electronic safety-related systems'' standard. Jordan \cite{jordan2006standard} provides an overview of specifically the IEC 62304 ``Medical Device Software -- Software Lifecycle Processes'' standard.
+
+To allow us to determine if regulation of medical device software has improved the situation, several works which analyse relevant data will be examined. Wallace and Kuhn produced two papers \cite{wallace1999lessons,wallace2001failure} analysing a subset of \fda data relating to ``adverse events'' and provided statistics on the types of software errors and the medical domain of the devices, as well as information on how to prevent and detect these types of errors. The \fda \maude dataset \cite{maude} is also examined directly by the author to attempt to derive conclusions regarding the proportion of medical device software errors in the broader \maude database. Finally, \textit{Failure in Safety-Critical Systems} chapter 5 \cite{johnson2003failure} discusses the under-reporting of incidents, as well as reporting bias.
+
+\chapter{Safe software design: What does it involve?}
+\label{chap:safesoftware}
 
 \chapter{Flaws and failures: How and why?}
 \label{chap:flawsfailures}
@@ -85,14 +113,13 @@ It was initially unclear to those who operated the \ther that software errors we
 \label{chap:newstandards}
 
 \chapter{Data analysis: Are we safer?}
-\label{chap:safer}
+\label{chap:data}
 
 \chapter{Regulatory gaps: What's next?}
 \label{chap:reggaps}
 
 \chapter{Conclusion: Will history repeat?}
 \label{chap:conclusion}
-
 
 
 \appendix
