@@ -35,30 +35,25 @@
       * obradovich1996users
     * dunn2003designing
       * Acceptable mishap risk
-      
   * Flaws and failures: How and why?
     * leveson1993investigation
       * Understanding the disaster itself
     * safeware
       * 
-   
   * Regulatory response: New standards
     * rakitin2006coping / brown2000overview / jordan2006standard
       * Processes that exist
-   
   * Process changes: What else can be done?
     * Designing safety-critical computer systems; dunn2003designing
     * Forensic software engineering the solution? johnson2002forensic
     * A risk management capability model for use in medical device companies; burton2006risk
     * Medical Device Software Traceability; mc2012medical
     * Agile? mchugh2012barriers
- 
   * Data analysis: Are we safer?
     * maude
     * wallace2001failure / wallace1999lessons
     * Allow the prediction of some problems; catal2011software
     * Bias in reporting; johnson2003failure 
-   
   * Regulatory gaps: What's next?
     * derreumaux2008lessons
 
@@ -77,6 +72,7 @@
   * How users cope with design error
     * obradovich1996users
  
+
 * Flaws and failures: How and why? -- What went wrong from a software process level?
   * Software of Unknown Pedigree
     * Assumption that software had been tested, but it hadn't in a software only safeguards machine
