@@ -5,6 +5,7 @@
 \usepackage{abbrevs}
 \usepackage{acronym}
 \usepackage[vario]{fancyref}
+\usepackage{gnuplot-lua-tikz}
 
 %%% BEGIN LATEX TWEAKS
 
@@ -51,8 +52,6 @@
 \maketitle
 
 \tableofcontents
-\listoftables
-\listoffigures
 
 \chapter{Introduction}
 
@@ -66,7 +65,35 @@ In 1985, the first reported case of \ther software safeguard failure occurred. K
 
 It was initially unclear to those who operated the \ther that software errors were the cause of these overdoses. Due to the nature of radiation overdoses, the most serious of symptoms appear days if not weeks later, causing the resulting deaths and disablements to be attributed to other factors. However, over time, it became clear to different system operators that something was seriously wrong with the \ther, sparking an eventual forced FDA recall of the product with a total of six overdoses and two deaths.
 
-\chapter{Literature Review}
+% TODO: Cite
+\ther was responsible for the first known deaths in radiotherapy, a profession that began some 35 years prior, and the confluence of death and computing caused an uproar at the time. Since then, the flames of anger have died down, and there is an opportunity to review the incident objectively. This report will examine the \ther case in detail, trying to determine the answers to several important questions:
+\begin{enumerate}
+ \item What were the flaws of \ther and how did failures on the part of \aecl and \cgr contribute to the creation of these flaws? (\Fref{chap:flawsfailures})
+ \item How did standards and regulatory bodies respond to \ther through new guidelines and processes for creation of ``safe'' medical device software? (\Fref{chap:newstandards})
+ \item Have those guidelines and processes resulted in the creation of safer medical device software? (\Fref{chap:safer})
+ \item Are there still areas in the medical landscape where regulation is insufficient? (\Fref{chap:reggaps})
+ \item Will \ther happen again? (\Fref{chap:conclusion})
+\end{enumerate}
+
+% \chapter{Literature Review}
+% TODO: Necessary?
+
+\chapter{Flaws and failures: How and why?}
+\label{chap:flawsfailures}
+
+\chapter{Regulatory response: New standards}
+\label{chap:newstandards}
+
+\chapter{Data analysis: Are we safer?}
+\label{chap:safer}
+
+\chapter{Regulatory gaps: What's next?}
+\label{chap:reggaps}
+
+\chapter{Conclusion: Will history repeat?}
+\label{chap:conclusion}
+
+
 
 \appendix
 
