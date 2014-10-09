@@ -18,11 +18,8 @@
     
   
 * Literature review
+  * saferworld and safeware; overall sources
   * Safe software design: What does it involve?
-    * safeware
-      * 
-    * saferworld
-      * 
     * Sources of failure
       * johnson2003failure (section 3)
     * Failure models
@@ -39,7 +36,7 @@
     * leveson1993investigation
       * Understanding the disaster itself
     * safeware
-      * 
+      * human as monitor
   * Regulatory response: New standards
     * rakitin2006coping / brown2000overview / jordan2006standard
       * Processes that exist
@@ -81,8 +78,16 @@
     * Importance of HCI in a safety-critical software process
     * Error messages were ambiguous and didn't differentiate between dangerous and minor errors
     * Errors were habitualised; should have been noticed in testing with users
-  * Leveson; User as controller
+  * safeware; Human as monitor
+    * "The operator is dependent on the information provided; it is easy to provide too much or too little information or to display it poorly."
+    * "The information is more indirect with automated systems, which may make it harder for the operator to obtain a clear picture of the state of the system."
+    * "Failures may be silent or masked."
     * They didn't receive enough information from the machine to determine that there was a real problem
+  * saferworld
+    * "Studies have shown that management commitment to the safety goals is the most important factor distinguishing safe from unsafe systems and companies." p.415
+    * "One simple solution for engineers is to simply use human factors checklists. While many such checklists exist, they often do not distinguish among the qualities they enhance, which may not be related to safety and may even conflict with safety." p.273
+    * "As another example, a design that involves displaying data or instructions on a screen for an operator to check and verify by pressing the enter button minimizes the typing an o perator must do. Over time, however, and after few errors are detected, operators will get in the habit of pressing the enter key multiple times in rapid succession. This design feature has been implicated in many losses. For example, the Therac-25 was a linear accelerator that overdosed multiple patients during radiation therapy. In the original Therac-25 design, operators were required to enter the treatment parameters at the treatment site as well as on the computer console. After the operators complained about the duplication, the parameters entered at the treatment site were instead displayed on the console and the operator needed only to press the return key if they were correct. Operators soon became accustomed to pushing the return key quickly the required number of times without checking the parameters carefully." p.274
+    * "The system design may need to ensure that the operator cannot clear a safety-critical alert without taking corrective action or without performing subsequent actions required to complete an interrupted operation. The Therac-25, a linear accelerator that massively overdosed multiple patients, allowed operators to proceed with treatment five times after an error message appeared simply by pressing one key [115]. No distinction was made between errors that could be safety-critical and those that were not." p.301
   * Poor software quality practices
     * Race condition bug from x-ray to electron
     * Timer overflow bug when pressing button
