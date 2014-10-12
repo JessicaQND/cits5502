@@ -7,8 +7,12 @@
 \usepackage[vario]{fancyref}
 \usepackage{gnuplot-lua-tikz}
 \usepackage{xspace}
+\usepackage{hyperref}
 
 %%% BEGIN LATEX TWEAKS
+
+% Hyperref setup
+\hypersetup{hidelinks}
 
 % Configure bibliography
 \bibliographystyle{acm}
@@ -78,9 +82,9 @@ It was initially unclear to those who operated the \ther that software errors we
  \item How does one design safe software, what does it involve, what are the pitfalls and how do we avoid them? (\Fref{chap:safesoftware})
  \item What were the flaws of \ther and how did failures on the part of \aecl and \cgr contribute to the creation of these flaws? (\Fref{chap:flawsfailures})
  \item How did standards and regulatory bodies respond to \ther through new guidelines and processes for creation of ``safe'' medical device software? (\Fref{chap:newstandards})
- \item Have those guidelines and processes resulted in the creation of safer medical device software? (\Fref{chap:safer})
+ \item Have those guidelines and processes resulted in the creation of safer medical device software? (\Fref{chap:data}) 
  \item Are there still areas in the medical landscape where regulation is insufficient? (\Fref{chap:reggaps})
- \item Will \ther happen again? (\Fref{chap:conclusion})
+ \item Will a disaster like \ther happen again? (\Fref{chap:conclusion})
 \end{enumerate}
 
 % TODO: Economic consequences of human death
@@ -95,16 +99,48 @@ Leveson and Turner have also contributed the primary academic report on \ther \c
 
 Various work has been done into the area of safe critical software from both the perspective of cause and prevention. Dunn \cite{dunn2003designing} provides us with a helpful definition of safety in terms of ``mishap risk'', as well as examples of mishap causes.
 
-In terms of cause, in \textit{Failure in Safety-Critical Systems} chapter 3 \cite{johnson2003failure} Johnson discusses in detail the sources of failure, touching upon a broad variety of failures including Regulatory, Managerial, Hardware, Software, Human and Team based failures. Besnard and Baxter \etal \cite{besnard2003human} discuss two models of system failure, Reason's swiss cheese model and Randell's fault-error-failure model, both of which can be used to analyse the \ther disaster.
+In terms of cause, in \textit{Failure in Safety-Critical Systems} \cite[ch.~3]{johnson2003failure} Johnson discusses in detail the sources of failure, touching upon a broad variety of failures including Regulatory, Managerial, Hardware, Software, Human and Team based failures. Besnard and Baxter \etal \cite{besnard2003human} discuss two models of system failure, Reason's swiss cheese model and Randell's fault-error-failure model, both of which can be used to analyse the \ther disaster.
 
 In terms of prevention, Nolan \cite{nolan2000system} proposes several strategies to be considered when designing ``safe systems of care'', as well as methods to reduce ``adverse events''  which may compromise patient health. Obradovich and Woods \cite{obradovich1996users} perform an investigation of poor Human-Computer Interface design in a medical device, describing how the device is flawed and how both the user and medical supervisor can change their processes to cope with this. Lin, Vicente and Doyle \cite{lin2001patient} propose a new interface for a specific medical appliance that applies human factors engineering, a key part of the discussed prevention of user error, and provides data demonstrating the effectiveness of such an approach from error minimisation and efficiency perspectives.
 
 Several works discuss the introduction of various international standards and regulations post-\ther. Rakitin \cite{rakitin2006coping} provides an overview of foundational standards in the risk management space of medical device software. Brown \cite{brown2000overview} provides an overview of specifically the IEC 61508 ``Design of electrical / electronic / programmable electronic safety-related systems'' standard. Jordan \cite{jordan2006standard} provides an overview of specifically the IEC 62304 ``Medical Device Software -- Software Lifecycle Processes'' standard.
 
-To allow us to determine if regulation of medical device software has improved the situation, several works which analyse relevant data will be examined. Wallace and Kuhn produced two papers \cite{wallace1999lessons,wallace2001failure} analysing a subset of \fda data relating to ``adverse events'' and provided statistics on the types of software errors and the medical domain of the devices, as well as information on how to prevent and detect these types of errors. The \fda \maude dataset \cite{maude} is also examined directly by the author to attempt to derive conclusions regarding the proportion of medical device software errors in the broader \maude database. Finally, \textit{Failure in Safety-Critical Systems} chapter 5 \cite{johnson2003failure} discusses the under-reporting of incidents, as well as reporting bias.
+To allow us to determine if regulation of medical device software has improved the situation, several works which analyse relevant data will be examined. Wallace and Kuhn produced two papers \cite{wallace1999lessons,wallace2001failure} analysing a subset of \fda data relating to ``adverse events'' and provided statistics on the types of software errors and the medical domain of the devices, as well as information on how to prevent and detect these types of errors. The \fda \maude dataset \cite{maude} is also examined directly by the author to attempt to derive conclusions regarding the proportion of medical device software errors in the broader \maude database. Finally, \textit{Failure in Safety-Critical Systems} \cite[ch.~5]{johnson2003failure} discusses the under-reporting of incidents, as well as reporting bias.
 
 \chapter{Safe software design: What does it involve?}
 \label{chap:safesoftware}
+The design of safe software (or as Leveson calls it, ``Safeware'' \cite{safeware}) is of paramount importance in the medical industry, as the software is frequently placed in direct control of equipment that has the potential to serious injure or kill if it operates outside (usually thin) safety margins. In the case of \ther, the machine was capable in certain failure states of emitting radiation that was able to cause death and permanent disablement.
+
+Since \ther, much discussion has taken place on strategies to mitigate ``adverse events'' involving medical device software. Leveson argues that safe software design can only be achieved through creation of both a culture of safety, \cite[ch.~4]{safeware} and embedding Safeware design principles into the software from the beginning \cite[ch.~16]{safeware}. Leveson argues that it is not enough to identify how a system can go wrong, but also instituting changes that make that occurrence less likely by design. A strong culture of safety also ensures that complacency regarding safety, safety-apathetic organisational structures and lack of technical skill in implementing and ensuring safety in product are not present, which Leveson argues are key causes of software disaster.
+
+Safeware design principles concern themselves primarily with hazard reduction as a primary goal and consideration when designing software. Leveson notes that in many industries outside of software, there exists a large body of knowledge; standards, codes of practice and checklists, which provide a large degree of guidance to the design of physical products with safety consideration. However, such codes are present to a lesser extent in software, and mainly concern themselves with concepts of readability and complexity, rather than architecture.
+
+Within software, Leveson proposes four ways to reduce accidents through design changes. The first of these is hazard elimination, involving preventing hazards through design making them physically impossible. Some possible hazard elimination methods include;
+ \begin{itemize}
+  \item \textbf{Substitution}; change components with hazardous effects with others
+  \item \textbf{Simplification}; simply design such that hazards caused by complex interactions are removed
+  \item \textbf{Decoupling}; reduce adverse effects of unexpected behaviour in a subsystem by making it only loosely coupled with other systems
+  \item \textbf{Elimination of specific human error}; reduce obvious error by making system status unambiguous and easy to understand
+  \item \textbf{Reduction of hazardous materials or conditions}; ensure software only contains code necessary for core functionality, remove unused code
+ \end{itemize}
+ 
+The second of these is hazard occurrence reduction, whereby the probability of a hazard occurring is reduced, such as by;
+ \begin{itemize}
+  \item \textbf{Design for controllability}; provide feedback about system state while critical actions occur, provide operator time to react to perceived problems with system
+  \item \textbf{Barriers}; erect physical or logical barriers between safe and unsafe tasks, unsafe tasks should not be easy to do accidentally
+  \item \textbf{Failure minimisation}; ensure safety factors and margins, as well as redundancy
+ \end{itemize}
+ 
+The third of these is hazard control, through which the probability of a hazard leading to an accident can be reduced through a variety of methods;
+ \begin{itemize}
+  \item \textbf{Limiting exposure}; critical software checks should be as close in execution as the code they protect, critical checks should also not be complimentary
+  \item \textbf{Isolation and containment}; the number of people who could be affected by a hazard should be reduced to as low as practical
+  \item \textbf{Protection systems and Fail-safe design}; independent watchdog hardware can be introduced to ensure that a failed system is returned back to a safe state
+ \end{itemize}
+
+The final of these is damage reduction. Potential hazards need to be understood, and emergency plans and training to handle these hazards should they arise should be provided to relevant people such than in the case of an hazard-caused accident, damage mitigating action can occur.
+
+Nolan \cite{nolan2000system} proposes several high-level strategies to design ``safe systems of care'', as well as tactics to help reduce the incidence of adverse events in the case of an error. His primary tactics are...
 
 \chapter{Flaws and failures: How and why?}
 \label{chap:flawsfailures}
