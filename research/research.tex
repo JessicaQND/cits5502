@@ -5,7 +5,7 @@
 \usepackage{abbrevs}
 \usepackage{acronym}
 \usepackage[vario]{fancyref}
-\usepackage{gnuplot-lua-tikz}
+%\usepackage{gnuplot-lua-tikz}
 \usepackage{xspace}
 \usepackage{hyperref}
 \usepackage{multicol}
@@ -229,9 +229,7 @@ There are several data sets that could potentially provide answers to these ques
 
 Using the \maude database, it may be possible to measure the proportion of issues manufacturers have reported as being related to medical device software in some form. From those statistics, it may be possible to derive trends, such as if device software is becoming more or less safe. The most useful data attribute for such a purpose is clearly the category: the \fda provides an extensive (nearly 1,000) list of categories, to one of which each adverse event can be assigned.
 
-The first analysis on \maude involved determining a list of categories considered relevant to medical device software adverse events, and then querying the database to determine what proportion of adverse events each year were contained within that category. 
-
-The categories chosen for that purpose were;
+Because of the sheer size of \maude and time contraints, manual analysis of data is not fesiable, thus automated analysis techniques will be investigated. The first analysis on \maude involved determining a list of categories considered relevant to medical device software adverse events, and then querying the database to determine what proportion of adverse events each year were contained within those categories. The categories chosen for that purpose were;
 \begin{multicols}{2}
 {\smaller
 \begin{itemize}
@@ -262,30 +260,66 @@ The categories chosen for that purpose were;
 }
 \end{multicols}
 
-The database was analysed, with the proportion of software events never becoming greater than 0.4\%. \Fref{fig:proportiongraph} shows the proportion of incidents of the above categories within the larger database. Upon analysing the data in this database, it is difficult to come to any complete conclusions about these proportions. Before 2007, there are no adverse events corresponding to those categories in \maude, suggesting that either those categories were either non-existent, or the introduction of categories entirely was introduced in that year. From 2007--12, there are less than 10 reports matching the medical device software categories, suggesting that those categories are not readily used. 2013--14 shows significantly more of these categories, but they do not alone provide enough data points to draw any conclusions.
-
-Furthermore, it appears that the publicly accessible data within \maude is only a recently phenomenon, with \Fref{fig:totalgraph} showing how the public data present increases massively over the period covered.
-
 \begin{figure}
-  \include{data/fdaplot1-report}
+  %\include{data/fdaplot1-report}
   \caption{Proportion of incidents in medical device software related categories over time}
   \label{fig:proportiongraph}
 \end{figure}
 
 \begin{figure}
-  \include{data/fdaplot2-report}
+  %\include{data/fdaplot2-report}
   \caption{Number of reports in \maude over time}
   \label{fig:totalgraph}
 \end{figure}
 
+The database was analysed, with the proportion of software events never becoming greater than 0.4\%. \Fref{fig:proportiongraph} shows the proportion of incidents of the above categories within the larger database. Upon analysing the data in this database, it is difficult to come to any complete conclusions about these proportions.
+
+Before 2007, there are no adverse events corresponding to those categories in \maude, suggesting that either those categories were either non-existent, or the introduction of categories entirely was introduced in that year. From 2007--12, there are less than 10 reports matching the medical device software categories, suggesting that those categories are not readily used. 2013--14 shows significantly more of these categories, but they do not alone provide enough data points to draw any conclusions.
+
+Wallace and Kuhn performed a previous study of this area with a manually classified non-public set of similar \fda data. They found that from 1983--91 approximately 6\% of all incidents could be considered to be software related, and this increasing in the years 1994--96, them having 11\%, 10\% and 9\% respectively. \cite{wallace2001failure} This is massively at odds with the data collected from the public \maude database, suggesting that the categorisation technique used is insufficient. Furthermore, it appears that the publicly accessible data within \maude is only a recently phenomenon, with \Fref{fig:totalgraph} showing how the public data present increases from nearly zero to over 30,000 in the period covered.
+
 % TODO: Other data stuff
+% TOOO: Mention trying to gt data off Kuhn
+
 
 \chapter{Regulatory gaps:\\What's next?}
 \label{chap:reggaps}
+As discussed in the prior section, it is easily seen that regulation does not necessarily address problems with emerging technologies with appropriate speed. Crumpler and Rudolf \cite{crumpler1997fda} discuss a draft policy released by the \fda in 1989 designed to clarify and deal with the introduction of medical device software as components of sold products, or as accessories of those products, and how such software has the same regulations applied to it unless they are specifically and seperately classified. The \fda also defines accessories as software which mediates data input/output between the user and the medical device.
+
+An interesting and relevant type of software in this area mentioned by Crumpter and Rudolf is radiation therapy treatment planning software, which allows medical professionals to import various scan data from a patient, allowing them to make a ``virtual patient'' thorough which they can view the patient's illness and construct a high level plan to treat that illness. This high level plan can then be deconstructed by the software into a series of less complex radiation exposure sizes and intensities. Such software has risen in prominence as computational power has increased to allow such complex to be fesiable.
+
+Such software is of particular interest as in some cases such software is developed in-house, based on the specific needs of the clinic or medical centre. While under the 1989 policy the \fda would still require such software to be regulated, as it does meet the defnition of an accessory of a radiotherepy device, it becomes much more difficult for the \fda to do so effectively within it's framework. The \fda's main information gathering is contained within the ``pre-market notification'' requirements, in which software creators are required to notify the \fda before selling a product; this may never occur in the case of in-house solutions. Similarly, the \fda's main power exists in being able to take defective products ``off the market'' as it were, a measure that is not necessarily relevent or effective in the the case of in-house software.
+
+It is difficult to measure how many accidents occur due to such software, however, some studies do exist on such accidents. Within the last decade France made changes to legal reporting obligations surrounding ionising radition that included medical applications. Derreumaux \etal \cite{derreumaux2008lessons} describe several accidents that were results of in-house medical device software error. 
+
+In the first case, the software provided with the medical centre's LINAC was unable to handle situations involving a particular method of altering the beam. In-house software to simulate that circumstance was used, with the results of that simulation exported to the LINAC's Record \& Verify system. During the export process, the R\&V system was not properly configured to accept the data input format provided, thus setting a critical parameter in that mode to zero. This default value resulted in a radiation overdose of $>20\%$ over the course of the treatment, which lead to the patient's effected issue undergoing necrosis.
+
+In the second less severe case, a new type of LINAC procedure was introduced which was encoded into a centre's in-house radiation therepy treatment planning software. It used a reference dose rate calculation that did not correctly take into account the differences in dosage caused by beam divergence in the new procedure. Due to these error, it is estimated hat around 4,000 people were exposed to an overdose ranging from 3\%--7\%.
+
+Both of these cases were a result of software bugs that stringent testing procedures should have found and mitigated. To quote Derreumaux \etal;
+\begin{quote}
+The first accident throws light on the problem of in-house software: many radiotherapy centres use such handcrafted software, which are not standardised and may not be thoroughly checked before clinical use. \cite{derreumaux2008lessons}
+\end{quote}
+
+In this sense, it appears that in-house software may be the next ``wild-west'' of medical software, having far less regulation ensuring that appropriate software development and risk management practiceses are observed. 
+
 
 
 \chapter{Conclusion:\\Will history repeat?}
 \label{chap:conclusion}
+The science of safe software has developed significantly since the occurrence of \ther, with a broad understanding now present as to the pitfalls of software development that can lead to safety critical software products that lack the proper emphasis on safety in their developement cycle. Leveson's \textit{Safeware} discusses in detail the various aspects of this, and here we touch upon those related to process that were particularly relevant in the case of \ther. We can view Leveson's proposed accident reduction techniques through the adaption of a unified failure model, as proposed by Besnard and Baxter.
+
+The exact causes of \ther have been throughoughly studied by the safe software development community, with the root cause of \ther's most deadly bug being a race condition that triggered under very specific circumstances. Why that bug existed in the first place was a failure of \aecl to properly contemplate and integrate safe software creation principles into their development efforts. \aecl reused software from previous efforts, but did not adequately and seperately test the software in the changed circumstance of no hardware interlocks; they instead showed little regard for the role software bugs could play in dangerous situations in those submissions to the \fda that have been analysed. The user interface of \ther also assisted in habituating a variety of negative operator behaviours, such as disregarding error messages and continuing treatment.
+
+Regulation in the medical device software area was partially driven to the forefront due to the publicised nature of the \ther incident, however despite this clear and present danger of software, national and international regulation has trickled in slowly over the subsequent decares. These standards are also complex, interwoven and difficult to easily follow, with a variety of standards bodies publishing different standards addressing different aspects of the process at different times. The primary and most recent standard appears to be \textit{IEC 62304: Medical device software -- Software life cycle processes} which was released for the first time in 2006.
+
+Determining if these regulations have helped curb adverse events relating to software is a difficult task. One way to do this is to analyse the freely available data present in the \fda \maude database and consider the proportion of categorised data that was software related. While this avenue was initially promising, it appears that the dataset is poorly categorised for such a purpose, and manual categorisation would be outside of the time constraints of this report. The quantity of public data available each prior year also decreases significantly, making it difficult to draw statistically significant conclusions more than a few years in the past. Further study with a fully categorised and larger dataset would yeild more useful results.
+
+One area that regulation may not adequately cover is that of in-house software accessories to LINACs and similar devices. While \fda recommendations as early as 1989 indicating that this software should be subject to regulation, the \fda is not well placed to perform such regulation, as the \fda's main methods of control relate to the restriction of sale of products, which is not relevant in the case of in-house software. Instances of in-house software bugs, potentially resulting from poorly regulated software developemnt, are discussed.
+
+When analysing regulation pre-\ther and post-\ther, one can clearly say that the regulatory environment has improved, and that such regulation should help reduce those instances of adverse events relating to medical device software. However, the snails pace at which these regulations were introduced is very worrying, as the technological landscape can change far more quickly than regulators can respond. The rise of in-house software is one instance where regulation on this issue is not necessarily sufficient. 
+
+\ther was an tragic disaster that helped highlight the necessity of safe software design processes. From \ther, many changes were instituted to try and prevent similar incidents from ocurring. Thus the question remains; will history repeat itself? From what we've seen here, it may already have.
 
 
 \appendix
