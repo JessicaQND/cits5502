@@ -51,6 +51,8 @@
 * Safe software design: What does it involve?
   * Sources of failure
     * johnson2003failure (section 3)
+    * "latent and catalytic failures"
+    * "proximal and distant causes"
   * Failure models
     * Swiss cheese; besnard2003human
   * Strategies for the design of safe systems of care
@@ -61,6 +63,13 @@
     * lin2001patient
   * How users cope with design error
     * obradovich1996users
+  * safeware
+    * substution
+    * simplification
+    * Decoupling; therac very tightly coupled
+    * elimination of specific human errors; written in assembler, hard to debug
+    * reduction of hazardous materials or conditions
+    
  
 
 * Flaws and failures: How and why? -- What went wrong from a software process level?
@@ -76,6 +85,7 @@
     * "The information is more indirect with automated systems, which may make it harder for the operator to obtain a clear picture of the state of the system."
     * "Failures may be silent or masked."
     * They didn't receive enough information from the machine to determine that there was a real problem
+    * p85
   * saferworld
     * "Studies have shown that management commitment to the safety goals is the most important factor distinguishing safe from unsafe systems and companies." p.415
     * "One simple solution for engineers is to simply use human factors checklists. While many such checklists exist, they often do not distinguish among the qualities they enhance, which may not be related to safety and may even conflict with safety." p.273
@@ -99,6 +109,8 @@
   * "However, with so many different standards, regulatory guidance papers and industry guides on RM, the task of collating this information into a usable model is itself daunting." -- burdon2006risk
   * Reporting requirements
     * "The reporting regulations for medical device incidents at that time applied only to equipment manufacturers and importers, not users. The regulations required that manufacturers and importers report deaths, serious injuries, or malfunctions that could result in those consequences. Health-care professionals and institutions were not required to report incidents to manufacturers. (The law was amended in 1990 to require health-care facilities to report incidents to the manufacturer and the FDA.) The comptroller general of the US Government Accounting Office, in testimony before Congress on November 6, 1989, expressed great concern about the viability of the incident-reporting regulations in preventing or spotting medical-device problems." -- safeware
+  * FDA Quality Systems Regulation
+    * "The new Quality Systems Regulation for medical devices, 2 which became effective June 1, 1997, will have significant effects on this area. The design controls provisions of that regulation 3 provide for new regulatory approaches that are more properly suited to medical software devices than traditional FDA premarket review." TODO --crumpler1997fda
   * IEC 61508 - brown2000overview
     * First version: 1998-2000
     * "Many software safety experts think that the medical device sector should recognise IEC 61508, Functional safety of electrical/electronic/programmable electronic safety-related systems. This claims to be a 'standard for standards". Any industry sector writing a standard for software safety should in principle adopt its principles. However, application of IEC 61508 is difficult in the medical device sector because it tends to assume holistic risk management and it is best at addressing very low levels of risk." -- jordan2006standard
@@ -146,6 +158,12 @@
   * The new frontier of medicine is actual standalone medical software, which lacks concrete regulation(? verify)
     * "The first accident throws light on the problem of in-house software: many radiotherapy centres use such handcrafted software, which are not standardised and may not be thoroughly checked before clinical use. This was a case in which the local software had not been tested for beams filtered by internal wedge." -- derreumaux2008lessons
     * ~1987 -- 2000, approx 4000 people; "the MU calculation in-house software had not been updated to take into account the Dr increase due to beam divergence (inverse square law). Therefore, all isocentric patients were over-irradiated by a factor equal to [(100 þ dmax)/100]2, where dmax is a function of beam energy. The overexposure is estimated to be 3, 5.5 and 7%, respectively, for 6, 12 and 25 MV beams."  -- derreumaux2008lessons
+  * crumpler1997fda
+    * "The 1989 draft policy was never published as final, thus it has no legal status."
+    * "Software components of devices and software accessories to devices are themselves also devices. FDA's policy is that, unless separately classified, components and accessories are regulated in the same way as their "parent" devices."
+    * "One definition, adapted from FDA's written guidance, provides that "[a software] accessory is a [software] unit which is intended to be attached to or used in conjunction with another finished device, although an accessory may be sold or promoted as an independent unit." A second definition of "accessory" is the working definition that FDA has used over the past two years in the discussions about the agency's software policy. According to this definition, a software accessory to a medical device either accepts data from the user and modifies it for input to a medical device, or takes data from a medical device and modifies it for presentation to the user"
+    * "For unclassified computer products that are not components or accessories to anotherdevice, the 1989 draft policy proposed several exemptions from FDA regulations. For example, computer products that are either general purpose, developed for personal or local institutional use, intended for teaching, or intended for nonclinical research are all exempted from active regulation."
+    * "Some specific examples of software accessories include alpha fetoprotein (AFP) calculator, radiation therapy treatment planning software, intraocular lens power calculator, digital imaging and image conversion software, picture archiving and communication system, pacemaker rate response factor calculator, EEG and ECG waveform analysis software, hemodialysis calculator, and corrective shoe orthosis software (exempted).
 
     
 * Conclusion; will history repeat?
