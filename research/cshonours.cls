@@ -207,8 +207,7 @@ class report.cls by Cara MacNish August 1999/September 2000]
 %ckm    {\large Draft \@date \par}%       % Set date in \large size.
 %ckm  \vfil\null
 \vfill
-		{\it CITS5502 Software Processes\\
-		\@submityear}
+		{\it CITS5502 Software Processes}
   \end{center}
 %ckm	\par
 %ckm	\@thanks
