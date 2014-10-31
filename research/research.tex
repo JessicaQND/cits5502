@@ -18,6 +18,14 @@
 
 %%% BEGIN LATEX TWEAKS
 
+
+\usetikzlibrary{shapes.geometric, arrows, positioning, fit}
+
+\tikzstyle{plain} = [rectangle, minimum width=2.5cm, minimum height=1cm, text centered, text width=2.5cm, draw=black]
+
+\tikzstyle{arrow} = [thin,->,>=stealth]
+
+
 % Hyperref setup
 \hypersetup{hidelinks}
 
@@ -40,6 +48,7 @@
 \acrodefn{iec}{IEC}{International Electrotechnical Commission}
 \acrodefn{aami}{AAMI}{Association for the Advancement of Medical Instrumentation}
 \acrodefn{hci}{HCI}{human-computer interaction}
+\acrodefn{stamp}{STAMP}{System-Theoretic Accident Model and Processes}
 
 % Abbreviation commands for common stuff
 % TODO: Fix spacing problem
@@ -69,12 +78,18 @@
 
 
 \title{Therac-25:\\Will history repeat itself?}
-\author{Ash Tyndall\\20915779}
+\author{Ash Tyndall\\20915779\\\\{\smaller\today}}
 
 \begin{document}
 \maketitle
 
 \tableofcontents
+
+\vfill
+
+{\larger \noindent \textbf{Acknowledgements}}
+
+\noindent Special thanks to Rick Kuhn for attempting to dig up further data relating to his co-authored papers \cite{wallace1999lessons,wallace2001failure} that would have augmented the MAUDE data analysis of Chapter \ref{chap:data}. Unfortunately the data in his possession did not have the necessary date information for my purposes, but his effort and quick response time relating to a paper that was published more than a decade ago is appreciated nonetheless.
 
 \chapter{Introduction}
 
@@ -88,18 +103,16 @@ In 1985, the first reported case of \ther software safeguard failure occurred. K
 
 It was initially unclear to those who operated the \ther that software errors were the cause of these overdoses. Due to the nature of radiation overdoses, the most serious of symptoms appeared days if not weeks later, causing the resulting deaths and disablements to be attributed to other factors. However, over time, it became clear to different system operators that something was seriously wrong with the \ther, sparking an eventual forced \fda recall of the product with a total of six overdoses and two deaths.
 
-% TODO: Cite
-\ther was responsible for the first known deaths in radiotherapy, a profession that began some 35 years prior, and the confluence of death and computing caused an uproar at the time. Since then, the flames of anger have died down, and there is an opportunity to review the incident objectively. This report will examine the \ther case in detail, trying to determine the answers to several important questions:
+\ther was responsible for one of the most published deaths in radiotherapy, a profession that began some 35 years prior, and the confluence of death and computing caused an uproar at the time. Since then, the flames of anger have died down, and there is an opportunity to review the incident objectively. This report will examine the \ther case in detail, trying to determine the answers to several important questions:
 \begin{enumerate}
  \item How does one design safe software, what does it involve, what are the pitfalls and how do we avoid them? (\Fref{chap:safesoftware})
- \item What were the flaws of \ther and how did failures on the part of \aecl and \cgr contribute to the creation of these flaws? (\Fref{chap:flawsfailures})
+ \item What were the flaws of \ther and how did failures on the part of \aecl contribute to the creation of these flaws? (\Fref{chap:flawsfailures})
  \item How did standards and regulatory bodies respond to \ther through new guidelines and processes for creation of ``safe'' medical device software? (\Fref{chap:newstandards})
  \item Have those guidelines and processes resulted in the creation of safer medical device software? (\Fref{chap:data}) 
  \item Are there still areas in the medical landscape where regulation is insufficient? (\Fref{chap:reggaps})
  \item Will a disaster like \ther happen again? (\Fref{chap:conclusion})
 \end{enumerate}
 
-% TODO: Economic consequences of human death
 
 \chapter{Literature Review}
 \label{chap:litreview}
@@ -119,6 +132,8 @@ Several works discuss the introduction of various international standards and re
 
 To allow us to determine if regulation of medical device software has improved the situation, several works which analyse relevant data will be examined. Wallace and Kuhn produced two papers \cite{wallace1999lessons,wallace2001failure} analysing a subset of \fda data relating to ``adverse events'' and provided statistics on the types of software errors and the medical domain of the devices, as well as information on how to prevent and detect these types of errors. The \fda \maude dataset \cite{maude} is also examined directly by the author to attempt to derive conclusions regarding the proportion of medical device software errors in the broader \maude database. Finally, \textit{Failure in Safety-Critical Systems} \cite[ch.~5]{johnson2003failure} discusses the under-reporting of adverse events, as well as reporting bias.
 
+With the literature available in the field, we can now review what safe software design is, and how to accomplish it.
+
 
 \chapter{Safe software design: What and how?}
 \label{chap:safesoftware}
@@ -126,7 +141,7 @@ The design of safe software (or as Leveson calls it, ``safeware'' \cite{safeware
 
 It is difficult however to define what exactly ``safety'' is. Granted, we can say that a system is ``safe'' if there is absolutely no chance that anything could go wrong with it, however, such systems do not exist in the real world. Dunn \cite{dunn2003designing} touches upon a useful concept to consider safety: A safe system is one with an acceptably low ``mishap risk.'' Dunn uses the US Department of Defence definition of mishap; ``an unplanned event or series of events that result in death, injury, occupational illness, damage to or loss of equipment or property, or damage to the environment,'' also suggesting that mishap risk deals with the impact or severity of a given mishap event, and the probability of it occurring. Another common team in the medical field that could be considered a synonym with mishap is ``adverse event'', which is more specifically and generally defined as ``any undesirable experience associated with the use of a medical product in a patient'' \cite{fdaadverse}.
 
-Since \ther, there has been much discussion regarding strategies to mitigate ``adverse events'' involving medical device software. Leveson argues that safe software design can only be achieved through creation of both a culture of safety, \cite[ch.~4]{safeware} and embedding ``safeware'' design principles into the software from the beginning \cite[ch.~16]{safeware}. She argues that it is not enough to identify how a system can go wrong, but also institute changes that make those occurrence less likely by design. A strong culture of safety also ensures that complacency regarding safety, safety-apathetic organisational structures and lack of technical skill in implementing and ensuring safety in product are not present, which Leveson argues are key causes of software disaster.
+Since \ther, there has been much discussion regarding strategies to mitigate ``adverse events'' involving medical device software. In \textit{Safeware}, Leveson argues that safe software design can only be achieved through creation of both a culture of safety, \cite[ch.~4]{safeware} and embedding ``safeware'' design principles into the software from the beginning \cite[ch.~16]{safeware}. She argues that it is not enough to identify how a system can go wrong, but also institute changes that make those occurrence less likely by design. A strong culture of safety also ensures that complacency regarding safety, safety-apathetic organisational structures and lack of technical skill in implementing and ensuring safety in product are not present, which Leveson argues are key causes of software disaster.
 
 ``Safeware'' design principles concern themselves primarily with hazard reduction as a primary goal and consideration when designing software. Leveson notes that in many industries outside of software there exists a body of knowledge (i.e. standards, codes of practice and checklists) which provides a large degree of guidance to the design of physical products with safety considerations. However, such knowledge is present to a lesser extent in software, what knowledge that is present mainly concerns itself with concepts of readability and complexity, rather than ``safe'' architecture.
 
@@ -155,17 +170,32 @@ The third of these is hazard control, through which the probability of a hazard 
 
 The final of these is damage reduction. Potential hazards need to be understood, and emergency plans and training to handle these hazards should be provided. Relevant people can then ensure that in the case of an hazard-caused accident, damage mitigating action can occur.
 
-Leveson's proposed accident reduction techniques can be though of in terms of Besnard and Baxter's \cite{besnard2003human} integration of Reason and Randell's Swiss-cheese and fault-error-failure models, shown in \Fref{fig:besnardmodel}. In this diagram we can see that the first three of Leveson's proposed accident reduction techniques serve as barriers through which adverse events cannot traverse. Though the introduction of faults in these layers, errors are able to arise that eventually become failures that cause holes in these barriers. If these barriers happen to be broken in the same area, it can lead to accidents, harm and loss of life. Safe software design involves instituting processes that ensure that as little faults are introduced into these barriers as possible.
+\textit{Safeware}'s proposed accident reduction techniques can be though of in terms of Besnard and Baxter's \cite{besnard2003human} integration of Reason and Randell's Swiss-cheese and fault-error-failure models, shown in \Fref{fig:besnardmodel}. In this diagram we can see that the first three of Leveson's proposed accident reduction techniques serve as barriers through which adverse events cannot traverse. Though the introduction of faults in these layers, errors are able to arise that eventually become failures that cause holes in these barriers. If these barriers happen to be broken in the same area, it can lead to accidents, harm and loss of life. Damage reduction then serves to reduce the severity or quantity of this harm. Safe software design involves instituting processes that ensure that as little faults are introduced into these barriers as possible.
+
+Lin \cite{lin2001patient} provides a study of medical device interfaces which we can apply the proposed principles within \textit{Safeware} to investigate their effectiveness. In her study the user interface of a specific medical device, designed to administer specific quantities of a drug, was analysed against a proposed user interface which better applied Human-Computer Interface principles. This interface rearranged the design of the buttons used to input data, as well as changed the graphics displayed when navigating the device to give the user a much better sense of the implications of their actions, as well as the current mode of the machine.
+
+This could be considered a form of hazard elimination due to design; by reducing the confusion between the user's actions and the results, hazards related to erroneously entered parameters can be greatly reduced. When statistically comparing the use of the old interface to the new, Lin noted an average user error reduction of 44\%. Lin's changes to the interface were not drastic, but clearly demonstration how a safety orientated approach can be quite effective in preventing error.
+
+In her later book \textit{Engineering a Safer World} Leveson departs from the ``broad overview of what is known and practiced in System Safety today'' \cite[p.~xviii]{saferworld} present in \textit{Safeware} to instead describe techniques that she considers new and innovative, approaching the state of the art in System Safety.
+
+\begin{quote}
+The old safety engineering techniques, which were based on a much simpler, analog world, are diminishing in their effectiveness as the cause of accidents changes \cite[p.~xviii]{saferworld}.
+\end{quote}
+
+One of the key innovations Leveson champions are the \stamp, which she argues shifts the paradigm of safety engineering from considering safety as a matter of preventing failure, but instead as a matter of enforcing the system's safety constraints. She contends that traditional failure models of simple cause and effect are not adequate for the complex computer controlled systems of today, as frequently accidents are caused by complex component interaction or ``systemic causal mechanisms'' \cite[pp.~73--5]{saferworld}. She proposes three key parts of \stamp; 
+\begin{itemize}
+  \item \textbf{Safety constraints}: Events are not key to \stamp, but rather constraints, as events are effects, while a failure to meet constraints is the cause.
+  \item \textbf{Hierarchical safety control structures}: Viewing the system in terms of a hierarchy of components enforcing constraints at lower levels helps more readily analyse where there may be insufficient constraints and points of failure.
+  \item \textbf{Process models}: Systems should be broken down into process models, which contain the goal (a safety constrain), the action condition (how to accomplish), the observation condition (how to know it is working) and the model condition (how a human controller would understand the process.)
+\end{itemize}
+
+These key components of the broad \stamp accident model are expanded upon significantly within \textit{Engineering a Safer World}, with further discussion on the specific applications, as well as implementation details.
 
 \begin{figure}
  \includegraphics[width=\textwidth]{figs/besnardmodified.pdf}
- \caption{Model of Leveson's hazard reduction (adapted from \cite[fig.~6]{besnard2003human})}
+ \caption{Model of \textit{Safeware}'s hazard reduction (adapted from \cite[fig.~6]{besnard2003human})}
  \label{fig:besnardmodel}
 \end{figure}
-
-Lin \cite{lin2001patient} provides a study of medical device interfaces which we can apply Leveson's proposed principles to investigate their effectiveness. In her study the user interface of a specific medical device, designed to administer specific quantities of a drug, was analysed against a proposed user interface which better applied Human-Computer Interface principles. This interface rearranged the design of the buttons used to input data, as well as changed the graphics displayed when navigating the device to give the user a much better sense of the implications of their actions, as well as the current mode of the machine.
-
-This could be considered a form of hazard elimination due to design; by reducing the confusion between the user's actions and the results, hazards related to erroneously entered parameters can be greatly reduced. When statistically comparing the use of the old interface to the new, Lin noted an average user error reduction of 44\%. Lin's changes to the interface were not drastic, but clearly demonstration how a safety orientated approach can be quite effective in preventing error.
 
 
 \chapter{Flaws and failures: How and why?}
@@ -175,9 +205,11 @@ The \ther incidents are generally used as a case-study in literature on safety-c
 \begin{figure}
  \centering
  \includegraphics[width=\textwidth]{figs/interface.pdf}
- \caption{\ther interface}
+ \caption{\ther interface (adapted from \cite{theracassignment})}
  \label{fig:theracui}
 \end{figure}
+
+The \ther interface was run through a DEC VT100 video terminal, which provided the operator with a rudimentary text interface (see \Fref{fig:theracui}) which they could navigate through the use of the arrow and Enter keys. In this interface they would enter the patient's name, treatment mode, beam type, beam energy, and they would enter the ``prescribed'' values, which would be compared to the ``actual'' values which are set manually by the operator within the treatment room itself. If the actual and prescribed values were within a certain tolerance of each other, ``VERIFIED'' would appear to the right of them. The operator could copy the actual value into the prescribed column (i.e. accept the ``actual'' value without retyping) by pressing the ``Enter'' key on the VT100.
 
 The primary software error present in \ther was a race condition. In normal operation the program would wait 8 seconds when the beam mode was changed, as during that time physical elements of the machine were moving into place, leaving the beam improperly covered by either the X-ray or the electron beam dispersal elements for the duration of that time. Because of energy losses in the beam spreading apparatus, the raw power of the beam was set much higher in electron mode to have comparable effects to X-rays.  If the operator were to quickly change from X-ray to electron type the 8 second wait would not be enforced. If the beam was activated in less than 8 seconds after a type change, the apparatus would still be rotating, and proper implement would not be in place, thus severely irradiating the patient with the unintended full energy of the beam.
 
@@ -191,7 +223,7 @@ Specifically, the bug was triggered, thus causing an overdose, by the completion
 
 The ultimate failure of \ther was the lack of safety as a primary consideration in the software development and design process. As described by Leveson and Turner \cite{leveson1993investigation} in their investigation of the incident little documentation was kept regarding the specifications of the software running \ther, nor on the testing processes performed to ensure that the safety of the system was maintained. Software testing was only considered as part of broader whole-system tests, which would make complex software flaws much more difficult to find and fix. Furthermore, evidence indicates the software was developed by only one individual, leading to important questions regarding the amount of oversight that existed over the \ther software quality and design. It is evident that \aecl's management either did not posses the will and/or the competence to ensure the thorough testing of the \ther system, and a emphasis safety goals generally, with studies indicating that such an emphasis is one of the strongest indicators of a safe system \cite[p.~415]{saferworld}.
 
-One of the serous process issues uncovered as part of the \ther investigation was the fact the software used in \ther was partially ported from the prior Therac-6, which while architecturally similar, crucially differed in that it contained electromechanical safeguards in addition to software based ones. With \aecl's track record with documentation in serious question, the Therac-6 software could rightly be considered \soup, as without extensive specific software testing having been performed on the Therac-6, one could not rightly assume that the Therac-6 software was free of bugs that could have had adverse safety implications. It was later determined that one of the primary bugs responsible for the \ther incident was also present in Therac-20, but due to the hardware safeguards it merely caused the machine to shut down, suggesting the bug may have partial genesis in this use of \soup.
+One of the serous process issues uncovered as part of the \ther investigation was the fact the software used in \ther was partially ported from the prior Therac-6, which while architecturally similar, crucially differed in that it contained electromechanical safeguards in addition to software based ones. With \aecl's track record with documentation and adequate software testing in serious question, the Therac-6 software was unlikely to be bug free and developed with a standard safety-critical software development methodology. In that sense, \aecl should have considered the Therac-6 code to be \soup. The concept of \soup is a recent addition in medical standards, which discourage software developers from using such software as due to its lack of proper testing, it cannot be assumed to be reliable or trustworthy for a safety-related task, nor can it be trusted not to interfere with software that does perform such a task. It is recommended in such a case that additional testing and verification is performed on such software, which did not appear to occur in \aecl's case. It was later determined that one of the primary bugs responsible for the \ther incident was also present in Therac-20, but due to the hardware safeguards it merely caused the machine to shut down, suggesting the bug may have had genesis in this use of \soup.
 
 Another serious issue with process was the near complete exclusion of software from the core safety analysis of the \ther system. To quote \aecl's final report; 
 \begin{quote}
@@ -199,17 +231,44 @@ Programming errors have been reduced by extensive testing on a hardware simulato
 \end{quote}
 In that same report, \aecl assigns extraordinarily low probabilities to errors such as ``Computer selects wrong mode'' ($4 \times 10^{-9}$). This betrays \aecl's attitude towards software safety, and their failure to consider the dangers of using \soup within their products. 
 
-It is also illuminating to analyse the \ther disaster from the perspective of software design as a whole. Leveson \cite{safeware} provides several useful frameworks through which to analyse both a user and a computer's role within a given system. These are the human as monitor, backup and partner models. The most applicable of these to \ther would be ``human as monitor;'' a system in which the computer itself is responsible for the executive actions in the system, and the human serves a supervisory role ensuring that the process is error free. This may seem at odds when considering the entire ``directive'' intelligence of the system being still vested in the human, however the actual execution of the actions are the sole domain of the computer system. Leveson goes on to discuss how in such a system, it is important for the human to be sufficiently aware of the system's state to be an effective monitor; ``[t]he operator is dependent on the information provided; it is easy to provide too much or too little information or to display it poorly'' \cite[p.~114]{safeware}. \ther failed to provide appropriate levels of information to the human monitor in several ways;
+  \begin{figure}
+    \centering
+   \begin{tikzpicture}[node distance=1cm]
+    \node (sensors) [plain] {Sensors};
+    \node (displays) [plain, left=of sensors] {Displays};
+    \node (operator) [plain, below left=of displays] {Operator};
+    \node (controls) [plain, below right=of operator] {Controls};
+    \node (actuators) [plain, right=of controls] {Actuators};
+	 \node (process)  [plain, below right=of sensors] {Process};
+
+    \draw [arrow] (sensors) -- (displays);
+    \draw [arrow] (displays) -| (operator);
+	 \draw [arrow] (operator) |- (controls);
+    \draw [arrow] (controls) -- (actuators);
+    \draw [arrow] (actuators) -| (process);
+    \draw [arrow] (process) |- (sensors);
+
+    %\draw [arrow] (process) -- node[anchor=north] {\textit{Direct Perception}} (operator);
+    \end{tikzpicture}
+    \caption{Synthesised perception model (adapted from \cite[fig.~4.2]{saferworld})}
+    \label{fig:levesonsynth}
+  \end{figure}
+
+
+It is also illuminating to analyse the \ther disaster from the perspective of software design as a whole. In \textit{Safeware}, Leveson \cite{safeware} provides several useful frameworks through which to analyse both a user and a computer's role within a given system. These are the human as monitor, backup and partner models. The most applicable of these to \ther would be ``human as monitor;'' a system in which the computer itself is responsible for the executive actions in the system, and the human serves a supervisory role ensuring that the process is error free. This may seem at odds when considering the entire ``directive'' intelligence of the system being still vested in the human, however the actual execution of the actions are the sole domain of the computer system. Leveson goes on to discuss how in such a system, it is important for the human to be sufficiently aware of the system's state to be an effective monitor; ``[t]he operator is dependent on the information provided; it is easy to provide too much or too little information or to display it poorly'' \cite[p.~114]{safeware}. This is very similar to the ``synthesised perception'' model (see \Fref{fig:levesonsynth}) Leveson proposes in \textit{Engineering a Safer World} \cite[pp.~77--9]{saferworld}, which she argues can cause a failure of safety constraints if the perception model provided does not provide appropriate information in an understandable way. \ther failed to provide appropriate levels of information to the human monitor in several ways;
 \begin{enumerate}
   \item Error messages were vauge with description, with the details contained within unexplained numerical codes, making it impossible for the operator to know specifically what was wrong. E.g. ``HTILT 1''.
   \item Both dangerous and benign failures were represented by the same error code, habituating operators to ignore the messages.
+  \item Hardware designed to detect level of radiation dispensed had narrow range of detection, and did not report radiation levels exceeding that range to the operator.
 \end{enumerate}
+
+
 
 \ther is also a useful case study in poor \hci design. The system, for reasons of safety, required that parameters be entered multiple times, and if these entries mismatched, then an error would display and the treatment would not proceed. However, this ended with complaints from operators due to its arduous nature, thus it was augmented with a system whereby the user could press Enter to confirm that a parameter set was correct. While efficient, this had the net result of habitualising the operators into pressing Enter in quick succession, thus reducing the safety gained from requiring careful consideration of the parameters \cite[p.~274]{saferworld}.
 
 A similar HCI issue involved the ``Treatment Pause'' functionality, which allowed an operator to continue with treatment of a patient after receiving an error message up to five times before necessitating a system reboot. Due to the aforementioned poor error messages, this simply lead to the habitualisation of operators resuming treatment in the case of any error, as in the vast majority of circumstances, this would have no ill effect \cite[p.~301]{saferworld}.
 
-Ultimately it is difficult to pin down who at \aecl was responsible for the lack of appropriate safety culture, as subsequent lawsuits and regulatory investigations disincentivise parties with information from speaking out. However, due to the scale of the incident and the public nature of those lawsuits that did occur, enough information does exist to point to broad causes for the failure.
+Ultimately it is difficult to pin down who at \aecl was responsible for the lack of appropriate safety culture, as subsequent lawsuits and regulatory investigations disincentivise parties with information from speaking out. However, due to the scale of the incident and the public nature of those lawsuits that did occur, enough information does exist to point to broad causes for the failure. The incident provoked intense media interest at the time, which lead to regulators reconsidering how they managed medical device software safety.
 
 
 \chapter{Regulatory response: New standards}
@@ -317,10 +376,6 @@ Before 2007 there are no adverse events corresponding to the aforementioned cate
 
 Wallace and Kuhn \cite{wallace2001failure} performed a previous study of this area with a manually classified non-public set of similar \fda data. They found that from 1983--91 approximately 6\% of all incidents could be considered to be software related, with this increasing in the years 1994--96, to 11\%, 10\% and 9\% respectively. This is massively at odds with the data collected from the public \maude database, suggesting that the categorisation technique used is insufficient. Furthermore, it appears that the publicly accessible data records within \maude is only a recent phenomenon, with \Fref{fig:totalgraph} showing how the public data present per year increases from nearly zero to over 30,000 in the period covered.
 
-% TODO: Other data stuff
-% TOOO: Mention trying to gt data off Kuhn
-
-
 
 \chapter{Regulatory gaps: What's next?}
 \label{chap:reggaps}
@@ -341,25 +396,26 @@ Both of these cases were a result of software bugs that stringent testing proced
 The first accident throws light on the problem of in-house software: many radiotherapy centres use such handcrafted software, which are not standardised and may not be thoroughly checked before clinical use \cite{derreumaux2008lessons}.
 \end{quote}
 
-In this sense, it appears that in-house software may be the next ``wild-west'' of medical software, having far less regulation ensuring that appropriate software development and risk management practices are observed. 
+In this sense, it appears that in-house software may be the next ``wild-west'' of medical software, having far less regulation ensuring that appropriate software development and risk management practices are observed. It appears likely that regulation in this area will lag behind for some time, but eventually effective processes to prevent incidents such as this will be enacted first on national, then international levels.
 
 
 
 \chapter{Conclusion: Will history repeat?}
 \label{chap:conclusion}
-The science of safe software has developed significantly since the \ther incident, with a broad understanding now present as to the pitfalls of software development that can lead to safety critical software products that lack the proper emphasis on safety in their development cycle. Leveson's \textit{Safeware} discusses in detail the various aspects of this, and here we touch upon those related to process that were particularly relevant in the case of \ther. We can view Leveson's proposed accident reduction techniques through the useful adaptation of a unified failure model, as proposed by Besnard and Baxter.
+The science of safe software has developed significantly since the \ther incident, with a broad understanding now present as to the pitfalls of software development that can lead to safety critical software products that lack the proper emphasis on safety in their development cycle. Leveson's \textit{Safeware} discusses in detail the various aspects of this, and here we touch upon those related to process that were particularly relevant in the case of \ther. We can view Leveson's proposed accident reduction techniques through the useful adaptation of a unified failure model, as proposed by Besnard and Baxter, as well as viewing her more recent and innovative \stamp as another more modern lens through which to analyse the complex causal safety relationships in safety-critical software projects today.
 
-The exact causes of \ther have been thoroughly studied by the safe software development community, with the root cause of \ther's most deadly bug being a race condition that triggered under very specific circumstances. Why that bug existed in the first place was a failure of \aecl to properly contemplate and integrate safe software creation principles into their development efforts. \aecl reused software from previous efforts, but did not adequately and separately test the software in the changed circumstance of no hardware interlocks; they instead showed little regard for the role software bugs could play in safety critical software. The user interface of \ther also failed by habituating a variety of negative operator behaviours, such as disregarding error messages and continuing treatment after receiving error messages.
+The exact causes of \ther have been thoroughly studied by the safe software development community, with the root cause of \ther's most deadly bug being a race condition that triggered under very specific circumstances. Why that bug existed in the first place was a failure of \aecl to properly contemplate and integrate safe software creation principles into their development efforts. \aecl reused software from previous efforts, but did not adequately and separately test the software in the changed circumstance of no hardware interlocks; they instead showed little regard for the role software bugs could play in safety critical software. The user interface of \ther also failed by habituating a variety of negative operator behaviours, such as disregarding error messages and continuing treatment after receiving error messages. Further research regarding how interfaces on more recent LINACs differ and avoid \ther's \hci pitfalls, as well as those that still persist in industry, would assist in determining what improvements can or have been made in this area.
 
-Regulation in the medical device software area was partially driven to the forefront due to the publicised nature of the \ther incident, however despite this clear and present danger of software, national and international regulation has only trickled in slowly over the subsequent decades. These standards are also complex, interwoven and difficult to easily follow, with a variety of standards bodies publishing different standards addressing different aspects of the process at different times. The most recent standard in the area appears to be \textit{IEC 62304: Medical device software -- Software life cycle processes} which was released for the first time in 2006.
+Regulation in the medical device software area was partially driven to the forefront due to the publicised nature of the \ther incident, however despite this clear and present danger of software, national and international regulation has only trickled in slowly over the subsequent decades. These standards are also complex, interwoven and difficult to easily follow, with a variety of standards bodies publishing different standards addressing different aspects of the process at different times. The most recent standard in the area appears to be \textit{IEC 62304: Medical device software -- Software life cycle processes} which was released for the first time in 2006. 
 
-Determining if these regulations have helped curb adverse events relating to software is a difficult task. One way to do this is to analyse the freely available data present in the \fda \maude database and consider the proportion of categorised data that was software related. While this avenue was initially promising, it appears that the dataset is poorly categorised for such a purpose, and manual categorisation would be outside of the scope of this report. The quantity of public data available each prior year also decreases significantly, making it difficult to draw statistically significant conclusions more than a few years in the past. Further study with a fully categorised and larger dataset would yield more useful results.
+Determining if these regulations have helped curb adverse events relating to software is a difficult task. One way to do this is to analyse the freely available data present in the \fda \maude database and consider the proportion of categorised data that was software related. While this avenue was initially promising, it appears that the dataset is poorly categorised for such a purpose, and manual categorisation would be outside of the scope of this report. The quantity of public data available each prior year also decreases significantly, making it difficult to draw statistically significant conclusions more than a few years in the past. Further study with a fully categorised and larger dataset would yield more informative results, particularly in conjunction with a broader analysis of the interaction between aforementioned regulations, as well as a further history of \fda regulation in the area.
 
-One area that regulation may not adequately cover is that of in-house software accessories to LINACs and similar devices. While \fda recommendations as early as 1989 indicating that this software should be subject to regulation, the \fda is not well placed to perform such regulation, as the \fda's main methods of control relate to the restriction of sale of products, which is not relevant in the case of in-house software. Instances of in-house software bugs, potentially resulting from poorly regulated software development, are discussed, with overdoses similar to those caused by \ther resulting.
+One area that regulation may not adequately cover is that of in-house software accessories to LINACs and similar devices. While \fda recommendations as early as 1989 indicating that this software should be subject to regulation, the \fda is not well placed to perform such regulation, as the \fda's main methods of control relate to the restriction of sale of products, which is not relevant in the case of in-house software. Instances of in-house software bugs, potentially resulting from poorly regulated software development, are discussed, with overdoses similar to those caused by \ther resulting. Further research into how regulation is beginning to handle this area, and what is necessary to ensure safety within it is, will become increasingly important as in-house software grows in influence and use.
 
 When analysing regulation pre and post-\ther, one can clearly say that the regulatory environment has improved, and that such regulation should help reduce those instances of adverse events relating to medical device software. However, the snails pace at which these regulations were introduced is very worrying, as the technological landscape can change far more quickly than regulators can respond. The rise of in-house software is one instance where regulation on this issue is not necessarily sufficient to ensure patient safety.
 
-\ther was an tragic disaster that helped highlight the necessity of safe software design processes. From \ther, many changes were instituted to try and prevent similar incidents from occurring. Thus the question remains; will history repeat itself? From what we've seen here, it may already have.
+\ther was an tragic disaster that helped highlight the necessity of safe software design processes. From \ther, many changes were instituted to try and prevent similar incidents from occurring. Thus the question remains; will history repeat itself? When viewing the state of in-house software today in conjunction with insufficient regulation in the area, the landscape is eerily reminiscent of that which preceded the \ther disaster, indeed, we have already seen accidents in this area that were a result of poor practices. The question then becomes not \textit{will} history repeat itself, but rather \textit{has} history already done so? Unfortunately, it appears the answer is ``Yes.''
+
 
 \appendix
 
@@ -546,6 +602,7 @@ with open('stats2.csv', 'w', newline='') as resfile:
     csvw.writerow([year, comp_count, all_count])
 \end{lstlisting}
 
+\normalsize
 \bibliography{primary}
 
 \end{document}
